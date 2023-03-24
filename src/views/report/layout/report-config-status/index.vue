@@ -1,0 +1,713 @@
+<template>
+  <el-dialog
+    :title="title"
+    width="60%"
+    top="5vh"
+    v-loading="listLoading"
+    :visible.sync="isShowDialog"   
+    :append-to-body="true"
+    @open="dialogOpen"
+    :before-close="handleClose"
+  >
+    <div class="split-pane-page-wrapper right-menu-div">
+      <div slot="left" class="pane left-pane">
+        <div v-if="drawer">
+          <RightMenu
+            ref="rightMenu"
+            :currentOperateItem="currentOperateItem"
+            :tableColumnConfig="tableColumnConfig"
+            :curDiagram="curDiagram"
+            :refreshComponentList="refreshComponentList"
+            :dialogBoxComponentList="dialogBoxComponentList"
+            :linearComponentList="linearComponentList"
+            :deviceDesignType="deviceDesignType"
+            :interfaceApiAll="interfaceApiAll"
+            :hrefPageList="hrefPageList"
+          />
+        </div>
+        <div v-else id="drag-items" class="shapes">
+          <el-collapse
+            v-model="collapseActives"
+            @change="handleChange"
+            class="aside-menu drag-shape"
+          >
+            <el-collapse-item
+              :title="aside.label"
+              :name="key"
+              v-for="(aside, key) in mList"
+              :key="key"
+            >
+              <template slot="title">
+                <span class="aside-collapse-title">{{ aside.label }}</span>
+              </template>
+              <draggable
+                tag="ul"
+                class="menu-item-wrap"
+                handle=".handle"
+                :list="aside.componentList"
+                v-bind="{
+                  sort: false,
+                }"
+                @end="onDragMoveEnd"
+                @start="onDragMoveStart($event, aside.componentList)"
+              >
+                <li
+                  v-for="(componentConfig, configKey) in aside.componentList"
+                  :key="configKey"
+                  class="handle"
+                >
+                  <div class="drag-shape-img">
+                    <img
+                      class="drag-shape-icon"
+                      :data-shape-type="componentConfig.type"
+                      :data-shape-name="componentConfig.name"
+                      :src="componentConfig.url"
+                    />
+                  </div>
+
+                  <div class="icon-text">
+                    <span>{{ componentConfig.name }}</span>
+                  </div>
+                </li>
+              </draggable>
+            </el-collapse-item>
+          </el-collapse>
+        </div>
+      </div>
+      <div
+        slot="middle"
+        class="pane middle-pane middle-wrap"
+        style="overflow: auto"
+         v-if="isShowDialog"
+      >
+        <div id="container" style="background-color: white"></div>
+        <div id="menu">
+          <div>
+            <!-- <button id="pulse-button" @click="configDiagram">配置</button>
+            <button id="pulse-button" @click="copyDiagram">复制</button>-->
+            <button id="delete-button" @click="deleteDiagram">删除</button>
+          </div>
+        </div>
+        <div class="r-menu">
+          <!-- <i class="iconfont iconxuqiu" @click="showRemark" />
+          <i
+            class="iconfont icon42-jujiao"
+            @click="zoomReal"
+            style="font-size: 40px"
+          />
+          <i class="iconfont iconfangda" @click="zoomOut" />
+          <i class="iconfont iconsuoxiao" @click="zoomIn" /> -->
+        </div>
+      </div>
+      <!-- <el-drawer
+        :title="drawerTitle"
+        :visible.sync="drawer"
+        direction="rtl"
+        :append-to-body="true"
+        :before-close="handleDrawerClose"
+      >
+        <RightMenu
+          ref="rightMenu"
+          :curDiagram="curDiagram"
+          :refreshComponentList="refreshComponentList"
+          :dialogBoxComponentList="dialogBoxComponentList"
+          :linearComponentList="linearComponentList"
+          :deviceDesignType="deviceDesignType"
+        />
+      </el-drawer> -->
+      <!-- <div
+        slot="right"
+        class="pane right-pane right-wrap"
+        style="overflow: auto"
+      >
+        <RightMenu
+          ref="rightMenu"
+          :curDiagram="curDiagram"
+          :refreshComponentList="refreshComponentList"
+          :dialogBoxComponentList="dialogBoxComponentList"
+          :linearComponentList="linearComponentList"
+          :deviceDesignType="deviceDesignType"
+        />
+      </div> -->
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <!-- <el-button @click="isShowDialog = false">取 消</el-button>
+      <el-button type="primary" @click="save">保 存</el-button> -->
+    </div>
+  </el-dialog>
+</template>
+
+<script>
+import { mapGetters } from "vuex";
+import { statusMenuList} from "./left-menu/menu";
+import Draggable from "vuedraggable";
+import RightMenu from "./right-menu/event-item.vue";
+
+import SplitPane from "./split-pane";
+import Konva from "konva";
+import StatusFlow from "./statusFlow";
+import {
+  getReportInterfaceList,
+} from "@/api/chartsData";
+import { getProcessParamService } from "@/api/process";
+import { getReportTreeListV5Service,getProjectFileTreeListV5Service } from "@/api/v5";
+export default {
+  name: "addRole",
+  props: {
+    currentOperateItem: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    tableColumnConfig: {
+      type: Object,
+      default: () => []
+    },
+    id: {
+      type: String | Number,
+      default: "",
+    },
+    dialogVisible: {
+      type: Boolean,
+      default: false,
+    },
+    deviceDesignType: {
+      type: String,
+      default: "MOBILE",
+    },
+    componentList: {
+      type: Array,
+      default: [],
+    },
+    refreshComponentList: {
+      type: Array,
+      default: () => [],
+    },
+    dialogBoxComponentList: {
+      type: Array,
+      default: () => [],
+    },
+    linearComponentList: {
+      type: Array,
+      default: () => [],
+    },
+    title: {
+      type: String,
+      default: "",
+    },
+    eventList: {
+      type: Array,
+      default: [],
+    },
+  },
+  components: {
+    SplitPane,
+    RightMenu,
+    Draggable,
+  },
+  data() {
+    return {
+      listLoading: false,
+      drawer: false,
+      drawerTitle: "",
+      authorityAllListTree: [],
+      roleInfo: {
+        roleName: "",
+        roleExplain: "",
+        authIdList: [],
+      },
+      nextflow: undefined,
+      roleList: [],
+      checkKeys: [],
+      isEdit: true,
+      collapseActives: [0, 1, 2, 3, 4],
+      mList: [],
+      draggingNode: "",
+      draggingNodeName: "",
+      curDiagram: {},
+      selectedDiagram: {},
+      interfaceApiAll:[],
+      hrefPageList:[],
+      // linearComponentList:[],
+      // refreshComponentList:[],
+    };
+  },
+  computed: {
+    isShowDialog: {
+      get() {
+        return this.dialogVisible;
+      },
+      set(val) {
+        this.$emit("update:dialogVisible", val);
+      },
+    },
+    ...mapGetters(["projectId"]),
+  },
+  created() {
+  },
+  mounted() {
+    this.$nextTick(()=>{
+      this.dialogOpen();
+    })
+  },
+  destroyed() {
+    window.removeEventListener("drop", this.drop, false);
+    this.nextflow.destroyChildren();
+  },
+  methods: {
+    handleChange() {},
+    save() {
+      this.listLoading = false;
+      this.isShowDialog = false;
+    },
+    dialogOpen() {
+      const menuList = JSON.parse(JSON.stringify(statusMenuList))
+      if (this.currentOperateItem.name) {
+        menuList[0].componentList = menuList[0].componentList.filter(v => v.type === 'status-operate-operate')
+      } else {
+        menuList[0].componentList = menuList[0].componentList.filter(v => v.type !== 'status-operate-operate')
+      }
+      this.mList = menuList;
+      
+      this.initStatusFlow();
+      // 初始化 接口，页面以及流程中使用的接口（返回值）
+      this.handleEventInterface();
+      this.queryInterfaceDataList();
+      this.queryReportList();
+    },
+    handleEventInterface(){
+      this.eventList.forEach(eventItem=>{
+        if(eventItem.type=='event-operate-interface'){
+          let currentActionItem=eventItem.properties
+          this.queryProcessApiParamAndRes(currentActionItem.operateApiId,currentActionItem);
+
+        }
+      })
+    },
+    
+    queryProcessApiParamAndRes(id,currentActionItem) {
+      const data = {
+        processId: id,
+      };
+      getProcessParamService(data).then((res) => {
+        let paramsList = res.data.params;
+        paramsList &&
+          paramsList.forEach((item) => {
+           
+            // 去重
+            let paramExist = false
+            currentActionItem.interfaceDataConfig.paramsConfigs.forEach(pItem=>{
+              if(pItem.param_name==item.name){
+                paramExist=true
+              }
+            })
+            if(!paramExist){
+              let param = {
+                param_name: item.name,
+              };
+              currentActionItem.interfaceDataConfig.paramsConfigs.push(param);
+            }
+          });
+        this.$forceUpdate();
+        let interfaceName = res.data.processName;
+        let obj = {
+          label: interfaceName, // 依次判断数据接口、数据表、数据集
+          value: {
+            type: "customInterface",
+            id: id,
+            // data: res.data
+          },
+          children: [],
+        };
+        res.data.res &&
+          res.data.res.forEach((rItem) => {
+            let children = {
+              label: rItem.name,
+              value: {
+                type: "customInterface",
+                id: rItem.name,
+                data: {
+                  value: "",
+                },
+              },
+            };
+            obj.children.push(children);
+          });
+        this.$pageDataModelEngine.saveCustomInterfaceData(id, obj);
+      });
+    },
+ 
+    // 获取接口数据列表
+    queryInterfaceDataList() {
+      getProjectFileTreeListV5Service().then((res) => {
+        this.interfaceApiAll = res.dataList;
+      });
+    },
+     queryReportList() {
+      const data = {
+        queryType: this.deviceDesignType,
+      };
+      getReportTreeListV5Service(data).then((res) => {
+        this.hrefPageList = res.dataList || [];
+      });
+    },
+    initStatusFlow() {
+      let _this=this;
+      this.$nextTick(()=>{
+        var a = Konva;
+        var width = document.body.clientWidth * 0.6 - 260 - 10;
+        var height = 700;
+        _this.nextflow = new StatusFlow(width, height);
+       
+        _this.draggingNode = null;
+        _this.draggingNodeName = null;
+        // document
+        //   .getElementById("drag-items")
+        //   .addEventListener("dragstart", _this.dragStart);
+
+        var con = _this.nextflow.stage.container();
+        con.addEventListener("dragover", function (e) {
+          e.preventDefault(); // !important
+        });
+
+        con.addEventListener("drop", _this.drop);
+
+        let nextflow = _this.nextflow;
+        let currentShape;
+
+        _this.nextflow.on("click", _this.onSelect);
+
+        var menuNode = document.getElementById("menu");
+
+        window.addEventListener("click", (e) => {
+          // hide menu
+          menuNode.style.display = "none";
+        });
+        nextflow.stage.on("click", function (e) {
+          if (!e.target.parent) {
+            console.log("stage click");
+            _this.drawer = false;
+          }
+        });
+
+        nextflow.stage.on("contextmenu", function (e) {
+          // prevent default behavior
+          e.evt.preventDefault();
+          if (e.target === nextflow.stage) {
+            return;
+          }
+          currentShape = e.target.parent;
+          _this.selectedDiagram = currentShape.diagram;
+          if (
+            _this.selectedDiagram !== undefined &&
+            _this.selectedDiagram.type === "start"
+          ) {
+            _this.showDelete = false;
+          } else {
+            _this.showDelete = true;
+          }
+          // show menu
+          menuNode.style.display = "initial";
+
+          let pos = currentShape.absolutePosition();
+          menuNode.style.top = pos.y + 10 + "px"; // currentShape. nextflow.stage.getPointerPosition().y + 10 +'px';
+          menuNode.style.left = pos.x + 44 + "px"; // nextflow.stage.getPointerPosition().x + 10 + 'px';
+        });
+
+        if (_this.eventList.length > 0) {
+          nextflow.destroyChildren();
+          let scheme = {
+            nodes: _this.eventList,
+          };
+          nextflow.import(scheme);
+        } else {
+          // this.initData();
+          nextflow.import({
+            nodes: [
+              {
+                version: 1,
+                id: 0,
+                x: 100,
+                y: 81,
+                title: "开始",
+                type: "start",
+                outputs: [{ id: 0, x: 280, y: 91, title: null }],
+                properties: {},
+              },
+            ],
+          });
+        }
+      });
+    },
+    drop(e) {
+      var _this = this;
+      e.preventDefault();
+      _this.nextflow.stage.setPointersPositions(e);
+      const pos = _this.nextflow.stage.getPointerPosition();
+      _this.nextflow.createDiagram(
+        _this.draggingNode,
+        _this.draggingNodeName,
+        pos.x,
+        pos.y
+      );
+    },
+    onSelect(diagram) {
+      let _this = this;
+      this.drawer = true;
+      this.curDiagram = diagram;
+      this.drawerTitle = diagram.title;
+      this.$nextTick((item) => {
+        _this.$refs["rightMenu"].init(diagram);
+        // this.selectedDiagram = diagram;
+        // this.showWindowType = diagram.type; // 获取节点类型
+        // this.showWindowSubType = diagram.subType;
+        // this.showWindowBDrawer = true; // 显示可拖动抽屉
+      });
+    },
+    deleteDiagram: function () {
+      var r = confirm("是否删除该组件?");
+      if (r == true) {
+        if (this.selectedDiagram !== undefined) {
+          //删除组件的时候，需要将对应的变量一起删除
+          this.nextflow.deleteDiagram(this.selectedDiagram);
+          this.currentOperateItem._statusOperateSetTextOfType = ''
+        }
+      }
+    },
+    getNodeData(target, attr) {
+      var node = target.attributes[attr];
+      if (node) {
+        return node.nodeValue;
+      } else {
+        return "";
+      }
+    },
+    handleClose() {
+      this.isShowDialog = false;
+      let configJson = this.nextflow.export();
+      this.$emit("eventSave", configJson.nodes);
+
+    },
+    handleDrawerClose() {
+      this.drawer = false;
+    },
+    onDragMoveEnd() {},
+    onDragMoveStart(e) {
+      console.log("onDragMoveStart", e);
+      var _this = this;
+      var imgs = e.item.getElementsByClassName("drag-shape-icon");
+      if (imgs !== undefined && imgs.length > 0) {
+        _this.draggingNode = _this.getNodeData(imgs[0], "data-shape-type");
+        _this.draggingNodeName = _this.getNodeData(imgs[0], "data-shape-name");
+      }
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.el-form-item {
+  margin-bottom: 20px;
+}
+.new-role {
+  float: right;
+}
+.split-pane-page-wrapper {
+  display: flex;
+  border-top: 1px solid #e0e0e0;
+  // height:100%
+  .pane {
+    width: 100%;
+    height: 100%;
+
+    &.left-pane {
+      background: white;
+      width: 260px;
+      flex-shrink: 0;
+      /*padding-top: 20px;*/
+    }
+    &.middle-pane {
+      position: relative;
+      background: white;
+      padding: 10px;
+      box-shadow: 0 0 2px 1px #ccc;
+      border-radius: 5px;
+    }
+
+    &.right-pane {
+      width: 315px;
+      padding-left: 10px;
+      flex-shrink: 0;
+    }
+
+    &.top-pane {
+      background: sandybrown;
+    }
+
+    &.bottom-pane {
+      background: palevioletred;
+    }
+  }
+  .center-middle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .custom-trigger {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000000;
+    position: absolute;
+    .center-middle;
+    box-shadow: 0 0 6px 0 rgba(28, 36, 56, 0.4);
+
+    i.trigger-icon {
+      .center-middle;
+    }
+  }
+}
+.aside-collapse-title {
+  padding-left: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.shapes {
+  align-items: center;
+  /*display: flex;
+    flex-direction: column;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;  */
+  -webkit-touch-callout: none;
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+  .dragdrop-cursor {
+    cursor: move !important;
+  }
+
+  .drag-shape {
+    overflow: hidden;
+    padding: 0px;
+
+    // height: 50px;
+    // line-height:50px;
+    // text-align: center;
+    .drag-shape-img {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    span {
+      text-align: center;
+    }
+  }
+  li {
+    width: 33%;
+    display: inline-block;
+    padding: 5px;
+    &:hover {
+      color: #409eff;
+      border: 1px dashed #409eff;
+      margin: -1px;
+      cursor: pointer;
+    }
+  }
+  /deep/.el-collapse-item__content {
+    padding-top: 1px;
+    padding-left: 1px;
+  }
+}
+
+.menu-item-wrap {
+  padding: 0 10px;
+
+  li {
+    display: inline-flex;
+    //display: flex;
+    flex-direction: row;
+    width: 46%;
+    margin: 0 8px 8px 0;
+    //text-align: center;
+    color: #666;
+    cursor: pointer;
+    border: 1px solid #e5e6e8;
+    border-radius: 6px;
+    padding: 0 8px;
+    height: 36px;
+
+    &:hover {
+      color: #409eff;
+      border: 1px dashed #409eff;
+      margin: 0 8px 8px 0;
+    }
+
+    .iconfont {
+      //font-size: 45px;
+      font-size: 12px;
+      line-height: 36px;
+    }
+
+    .icon-text {
+      font-size: 12px;
+      line-height: 36px;
+      margin-left: 8px;
+      white-space: nowrap;
+      //margin-top: -12px;
+    }
+  }
+}
+
+.drag-shape-icon {
+  width: 16px;
+  height: 36px;
+  margin: auto;
+}
+/deep/.el-dialog__body {
+  padding: 20px 0px 0px 0px;
+}
+
+#menu {
+  display: none;
+  position: absolute;
+  width: 60px;
+  background-color: white;
+  box-shadow: 0 0 5px grey;
+  border-radius: 3px;
+}
+
+#menu span {
+  display: inline-block;
+}
+#menu button {
+  width: 100%;
+  background-color: white;
+  border: none;
+  margin: 0;
+  padding: 10px;
+  color: #333333;
+}
+
+#menu button:hover {
+  background-color: #17678b;
+}
+/deep/ .el-drawer.rtl {
+  width: 315px !important;
+  margin-right: 21%;
+  border-radius: 5px;
+  overflow: auto;
+  margin-top: 5vh;
+  height: 800px;
+}
+/deep/.el-dialog__footer {
+  padding: 0;
+}
+/deep/.el-dialog__body {
+  padding: 0;
+}
+</style>

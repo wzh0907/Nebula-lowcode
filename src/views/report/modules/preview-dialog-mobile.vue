@@ -1,0 +1,109 @@
+<template>
+  <div class="imgDialogCustom">
+    <el-dialog
+      id="mobileCustomDialog"
+      :title="title"
+      width="650px"
+      :before-close="handleClose"
+      :visible.sync="isShowDialog"
+      @open="dialogOpen"
+    >
+      <div v-if="isShowDialog">
+        <!-- <GenerateComponentMobile isDesignModel :componentConfigList="componentList" :subpageList="subpageList" :globalConfig="globalConfig" /> -->
+        <previewContent env="dev" :projectId="projectId" :reportId="reportId"></previewContent>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+import previewContent from "@/views/report/modules/preview/preview-content.vue";
+export default {
+  name: 'IconDialog',
+  components:{
+    previewContent
+  },
+  props: {
+    title: String,
+    dialogVisible: {
+      type: Boolean,
+      default: false
+    },
+    componentList: {
+      type: Array,
+      default: []
+    },
+    subpageList: {
+      type: Array,
+      default: []
+    },
+    globalConfig: {
+      type: Object,
+      default: {}
+    },
+    reportId:{
+      type: String,
+    }
+  },
+  data() {
+    return {
+      previewComponentList: []
+    }
+  },
+  computed: {
+     ...mapState({
+      projectId: (state) => state.project.projectId,
+    }),
+    isShowDialog: {
+      get() {
+        return this.dialogVisible
+      },
+      set(val) {
+        this.$emit('update:dialogVisible', val)
+      }
+    }
+  },
+  created() {
+  },
+  methods: {
+    initData() {},
+    handleClose() {
+      this.isShowDialog = false
+      /**
+       * 2022-01-28 由于数据引擎 在 页面跳转之类的事件之后，会将interface替换成别的页面的接口，所以在预览弹窗关闭的时候
+       * 做一个临时处理 重新清空处理下 interface,
+       * 原则上是应该隔离 编辑端和预览端的数据的，不过这边还没处理好数据引擎的 并行方案
+       *
+       **/
+
+      this.$pageDataModelEngine.clearModelDataPool()
+      let interfaceDataConfig = this.globalConfig.interfaceDataConfig || []
+      interfaceDataConfig.forEach(item => {
+        this.$pageDataModelEngine.saveInterfaceData(item)
+      })
+      this.$pageDataModelEngine.clearComponentData();
+      this.componentList.forEach((item, index) => {
+       this.$pageDataModelEngine.saveComponentData(item.uuid, item);
+      });
+    },
+    dialogOpen() {
+      this.initData()
+
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+/deep/.el-dialog__header {
+  padding: 20px 0px;
+}
+  /deep/.el-dialog__body{
+    padding:0
+  }
+  /deep/.van-dropdown-item--down{
+    width: 415px;
+    margin: auto;
+  }
+</style>

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "strict": false, // 严格模式
+    "strictNullChecks": true, // 严格的空检查
+    // "noImplicitThis": false, // 不检查this表达式的值类型。开启的时候当this表达式的值为any类型，会生成一个错误
+    // "esModuleInterop": true, // 兼容commonjs和es6的模块导入导出
+    "experimentalDecorators": true, // 装饰器还属于实验性语法，需要在这里配置开启
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}

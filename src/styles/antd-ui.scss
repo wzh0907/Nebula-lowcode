@@ -1,0 +1,14 @@
+// 覆盖antd-ui样式
+
+.ant-form-item-children{
+  position: static;
+}
+.ant-form-item{
+  margin: 0;
+}
+.ant-form-item-label > label{
+  color:#666666
+}
+label{
+  font-weight: 500;
+}

@@ -1,0 +1,229 @@
+ul,
+p {
+  margin: 0;
+  padding: 0;
+}
+// /deep/.node {
+//   font: 12px sans-serif;
+// }
+
+// /deep/.link {
+//   fill: none;
+//   stroke: #ccc;
+//   stroke-width: 1.5px;
+// }
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.el-main {
+  padding: 0;
+  overflow: initial;
+}
+// .mode-type-toggle {
+//   .el-dropdown-link {
+//     cursor: pointer;
+//     color: #fff;
+//   }
+//   .el-icon-arrow-down {
+//     font-size: 12px;
+//   }
+// }
+.cursor-pointer {
+  cursor: pointer;
+}
+.font-highlight {
+  cursor: pointer;
+  color: #409eff;
+}
+.tableau-page {
+  position: relative;
+  background-color: #fff;
+  user-select: none;
+}
+.tableau-sider {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  padding-right: 0px;
+  width: 260px;
+  // height: 887px;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+  background-color: #fff;
+  .database-block {
+    padding-bottom: 10px;
+    h2 {
+      font-size: 14px;
+      font-weight: bold;
+      span {
+        float: right;
+        margin-right: 15px;
+        font-weight: 500;
+        color: #409eff;
+        cursor: pointer;
+      }
+    }
+  }
+  .table-list {
+    margin-bottom: 15px;
+    flex: 1;
+    overflow-y: auto;
+    &.flex-3 {
+      flex: 3;
+    }
+    li {
+      padding-left: 15px;
+      height: 32px;
+      line-height: 32px;
+      cursor: pointer;
+      // 省略号
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:hover {
+        background-color: #409EFF;
+        color: #fff;
+      }
+      &.active {
+        background-color: #409EFF;
+        color: #fff;
+      }
+    }
+  }
+  .table-search {
+    margin-bottom: 10px;
+    height: 28px;
+    line-height: 28px;
+    .search-input-wrap {
+      width: 130px;
+      margin-right: 10px;
+    }
+    .el-icon-search {
+      margin-right: 15px;
+      cursor: pointer;
+    }
+  }
+  // li {
+  //   padding-left: 5px;
+  //   margin-bottom: 10px;
+  //   // width: fit-content;
+  //   cursor: pointer;
+  //   // 超出省略号
+  //   overflow: hidden;
+  //   text-overflow: ellipsis;
+  //   white-space: nowrap;
+  //   &:hover {
+  //     background-color: #ccc;
+  //   }
+  //   .iconfont {
+  //     font-size: 12px;
+  //     margin-right: 5px;
+  //   }
+  // }
+}
+// content
+.tableau-content {
+  display: flex;
+  flex-direction: column;
+  // margin-left: 280px;
+  margin-left: 260px;
+}
+.content-header {
+  position: relative;
+  // overflow: hidden;
+  padding: 5px;
+  .header-operation-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+  }
+  /deep/.el-tabs__item {
+    width: 115px;
+    text-align: center;
+  }
+}
+.content-header-wrap {
+  // overflow: auto;
+  // height: 240px;
+  // border: 2px solid transparent;
+  // &.target-zone-active {
+  //   border: 2px solid #409eff;
+  // }
+}
+
+.content-table {
+  position: relative;
+  // min-height: 300px;
+  // flex: 1;
+  // overflow-y: auto;
+  margin: 0px 5px;
+  border-top: 1px solid #ccc;
+  // border-bottom: 1px solid #EBEEF5;
+  .header-operation-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 10;
+  }
+  .content-table-wrap {
+    overflow-y: auto;
+    height: 500px;
+  }
+  .table-custom-header {
+    .data-type {
+      color: #409eff;
+      cursor: pointer;
+    }
+    .data-table {
+      color: #ccc;
+      font-size: 12px;
+    }
+    .data-field {
+      color: #333;
+    }
+    .table-data-control {
+      float: right;
+      margin-right: 20px;
+      cursor: pointer;
+      .iconfont {
+        font-size: 12px;
+      }
+    }
+    & .table-data-control {
+      visibility: hidden;
+    }
+    &:hover .table-data-control {
+      visibility: visible;
+    }
+  }
+
+  .table-field {
+    span {
+      display: inline-block;
+      padding: 0 10px;
+      width: 50px;
+      color: #409eff;
+      cursor: pointer;
+    }
+  }
+}
+// 数据表设置
+.table-operation {
+  padding: 20px;
+  .mini-font {
+    font-size: 12px;
+  }
+}
+.form-gap {
+  margin-bottom: 10px;
+}
+.operat-dropdown-link {
+  margin-right: 20px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+}

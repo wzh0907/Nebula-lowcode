@@ -1,0 +1,30 @@
+import layoutTemplate from './template.vue'
+import optionsConfig from './options-config'
+
+export default {
+  type: 'van-design-collapse',
+  name: '折叠面板',
+  icon: 'iconcollapse',
+  // img: button_img,
+  component: layoutTemplate,
+  configList: [
+    {
+      labelName: '折叠项',
+      formType: 'columns-config',
+      addBtnText: '添加折叠项',
+      key: 'columns',
+      addColumnConfig: {
+        title:'标题',
+        // content:'内容',
+        componentList: []
+      },
+      inputValueKey: 'title'
+    },
+    {
+      labelName: '手风琴',
+      formType: 'switch',
+      key: 'accordion'
+    }
+  ],
+  options: optionsConfig
+}

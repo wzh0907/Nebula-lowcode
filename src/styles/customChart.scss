@@ -1,0 +1,125 @@
+.textHtml{
+  cursor: pointer;
+  padding: 5px 10px;
+}
+ul,li{
+  list-style: none;
+}
+// 内边距公共样式start
+// margin-top
+.el-form-margin-top-no{
+  margin-top: 0 !important;
+}
+.el-form-margin-top-small{
+  margin-top: 10px !important;
+}
+.el-form-margin-top-middle{
+  margin-top: 20px!important;
+}
+.el-form-margin-top-large{
+  margin-top: 30px !important;
+}
+// margin-bottom
+.el-form-margin-bottom-no{
+  margin-bottom: 0 !important;
+}
+.el-form-margin-bottom-small{
+  margin-bottom: 10px !important;
+}
+.el-form-margin-bottom-middle{
+  margin-bottom: 20px!important;
+}
+.el-form-margin-bottom-large{
+  margin-bottom: 30px !important;
+}
+// margin-left
+.el-form-margin-left-no{
+  margin-left: 0 !important;
+}
+.el-form-margin-left-small{
+  margin-left: 10px !important;
+}
+.el-form-margin-left-middle{
+  margin-left: 20px!important;
+}
+.el-form-margin-left-large{
+  margin-left: 30px !important;
+}
+// margin-right
+.el-form-margin-right-no{
+  margin-right: 0 !important;
+}
+.el-form-margin-right-small{
+  margin-right: 10px !important;
+}
+.el-form-margin-right-middle{
+  margin-right: 20px!important;
+}
+.el-form-margin-right-large{
+  margin-right: 30px !important;
+}
+//padding
+// padding-top
+.el-form-padding-top-no{
+  padding-top: 0 !important;
+}
+.el-form-padding-top-small{
+  padding-top: 10px !important;
+}
+.el-form-padding-top-middle{
+  padding-top: 20px!important;
+}
+.el-form-padding-top-large{
+  padding-top: 30px !important;
+}
+// margin-bottom
+.el-form-margin-bottom-no{
+  padding-bottom: 0 !important;
+}
+.el-form-padding-bottom-small{
+  padding-bottom: 10px !important;
+}
+.el-form-padding-bottom-middle{
+  padding-bottom: 20px!important;
+}
+.el-form-padding-bottom-large{
+  padding-bottom: 30px !important;
+}
+// padding-left
+.el-form-padding-left-no{
+  padding-left: 0 !important;
+}
+.el-form-padding-left-small{
+  padding-left: 10px !important;
+}
+.el-form-padding-left-middle{
+  padding-left: 20px!important;
+}
+.el-form-padding-left-large{
+  padding-left: 30px !important;
+}
+// padding-right
+.el-form-padding-right-no{
+  padding-right: 0 !important;
+}
+.el-form-padding-right-small{
+  padding-right: 10px !important;
+}
+.el-form-padding-right-middle{
+  padding-right: 20px!important;
+}
+.el-form-padding-right-large{
+  padding-right: 30px !important;
+}
+// 内边距公共样式end
+
+// 对齐方式
+.customAlignMent_left{
+  text-align: left;
+}
+.customAlignMent_center{
+  text-align: center;
+}
+.customAlignMent_right{
+  text-align: right;
+}

@@ -1,0 +1,138 @@
+// 覆盖element-ui样式
+
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+// 重写table样式
+// .el-table{
+//   background-color: transparent !important;
+//   th {
+//       border-bottom: 0!important;
+//       color: #4a4a4a;
+//       font-size: 14px;
+//       font-weight: bold;
+//       line-height: 20px;
+//       background-color: #fafafa;
+//   }
+
+//   tr {
+//       height: 48px !important;
+//   }
+
+//   td {
+//       border-bottom: none !important;
+//   }
+//   &:before {
+//       background: transparent !important;
+//   }
+//   // @include e(fixed-right-patch) {
+//   //     background-color: #ededed !important;
+//   // }
+// }
+
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+}
+
+// refine element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// dropdown
+.el-dropdown-menu {
+  a {
+    display: block
+  }
+}
+
+// to fix el-date-picker css style
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+// 分页
+.el-pagination {
+  text-align: right;
+  margin: 14px;
+
+  white-space: nowrap;
+  padding: 2px 5px;
+  color: #303133;
+  font-weight: 700;
+}
+
+// form 表单
+.el-form-item {
+  margin-bottom: 30px;
+}
+.el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
+   margin-bottom: 0px; 
+}
+// 按钮
+.el-button--primary {
+  background-color: #004EA2;
+  border-color: #004EA2;
+}
+.el-button--primary:hover {
+  background: #3372b6;
+  border-color: #3372b6;
+}
+//颜色设计器
+.m-colorPicker .hd{
+  width: 55px !important;
+}
+.m-colorPicker .box{
+  width: 170px !important;
+  z-index: 9999 !important;
+  left: -84px;
+}
+.m-colorPicker .colorBtn {
+  width: 25px !important;
+  height: 6px !important;
+}
+
+// 重写dialog样式
+.el-dialog__body {
+  padding-top: 10px;
+}
+// el-menu 样式重写
+.el-menu--horizontal>.el-menu-item.is-active {
+  border-bottom: 2px solid #f85757;
+}
+// el-tabs 样式重写
+// .el-tabs__active-bar {
+//   background-color: #f85757;
+// }
+// .el-tabs__item:hover {
+//   color: #f85757;
+// }
+// .el-tabs__item.is-active {
+//   color: #f85757;
+// }
+.el-cascader-menu__wrap{
+  height: 320px;
+}

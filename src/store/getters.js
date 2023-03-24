@@ -1,0 +1,22 @@
+const getters = {
+  sidebar: state => state.app.sidebar,
+  menus: state => state.menu.menus,
+  device: state => state.app.device,
+  token: state => state.user.token,
+  phoneNumber: state => state.user.phoneNumber,
+  username: state => state.user.username,
+  thirdUserId: state => state.user.thirdUserId,
+  merchantList: state => state.user.merchantList,
+  merchantId: state => state.user.merchantId,
+  merchantName: state => state.user.merchantName,
+  avatar: state => state.user.avatar,
+  name: state => state.user.name,
+  projectId: state => state.project.projectId,
+  projectList: state => state.project.projectList,
+  chooseSubpageIndex:state => state.report.chooseSubpageIndex,
+  pageMap:state=>state.report.pageMap,
+  reportId:state=>state.report.reportId,
+  componentList:state=>state.report.componentList,
+  globalVariables:state=>state.global.globalVariables,
+}
+export default getters

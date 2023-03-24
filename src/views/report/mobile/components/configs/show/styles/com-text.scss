@@ -1,0 +1,25 @@
+.com-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 32px;
+  
+
+  .com-text-wrap {
+    flex: 1;
+  }
+
+  .com-text-icon {
+    padding: 0 8px;
+
+    i {
+      font-size: 20px;
+    }
+  }
+
+  .icon-left {
+  }
+
+  .icon-right {
+  }
+}

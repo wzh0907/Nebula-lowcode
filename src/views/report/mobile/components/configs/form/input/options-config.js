@@ -1,0 +1,36 @@
+export default {
+  // formInputItemConfig: {}, // 通过form组件注入
+  // 自定义属性
+  contentDataSource: 'radio-button-default',
+  value: '',
+  label: '标题',
+  enLabel: '',
+  inputType: 'text',
+  databaseField: '',
+  placeholder: '请输入',
+  enPlaceHolder: '',
+  maxlength: 20,
+  labelAlign: 'right',
+  valueAlign: 'left',
+  labelShow:true,
+  labelWidth: 70,
+  clearable: false,
+  searchData:false,
+  required: false,
+  searchDataList:[],
+  requiredMsg: '',
+  funcMsg: '',
+  regMsg: '',
+  inputRuleType: '',
+  inputRuleReg: '',
+  validatorTypeFunc: false,
+  validatorTypeReg: false,
+  validator: () => true,
+  interfaceDataConfig: {
+    versions: '1.0.0',
+    id: '',
+    key: '',
+    value: '',
+  },
+
+}
