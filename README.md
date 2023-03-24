@@ -1,37 +1,29 @@
-# nebula-open-design-ui
+#### 可视化IDE低代码开发平台
 
-#### 介绍
-星云座低代码平台前端页面项目
+全栈可视化开发工具链，包括可视化前端、后端、数据库、接口对接、项目发布等五大功能。本平台可以嵌入现有的业务系统，赋能业务系统具备低代码开发能力，快速扩展新功能，提升定制需求的开发效率
+<img src="https://api.xingyunzuo.com/platform/api/images/UQlQpgredHVWUtUt.png"  width = "100%"  alt="可视化平台" align="center" >
 
-#### 软件架构
-软件架构说明
+## 快速使用
+#### 线上版
+线上体验版，代码生成worker、浏览器构建、可视化操作、实时输出源代码、多种类型物料源，更多精彩内容逐步开放
+用户名：18888888888 密码：888888
+[https://dev.xingyunzuo.com/](https://dev.xingyunzuo.com/)
+
+#### 前端交互页面，不是简单表单
+<img src="https://api.xingyunzuo.com/platform/api/images/WLAfVe8rn6xwU3mC.png"  width = "100%"  alt="前端交互页面" align="center" >
+<img src="https://api.xingyunzuo.com/platform/api/images/99lljWqupRIbuYp3.png"  width = "100%"  alt="后端业务接口" align="center" >
+<img src="https://api.xingyunzuo.com/platform/api/images/GSWin4beMYP8lp1y.png"  width = "100%"  alt="外置数据库" align="center" >
+<img src="https://api.xingyunzuo.com/platform/api/images/P175KnbxnE4PAkDk.png"  width = "100%"  alt="外部系统互联" align="center" >
+<img src="https://api.xingyunzuo.com/platform/api/images/bMTbp21k0EZD1piv.png"  width = "100%"  alt="项目独立部署" align="center" >
+
+#### 特点
+<img src="https://api.xingyunzuo.com/platform/api/images/idAeag0ZwwlR6M9F.png"  width = "100%"  alt="特点" align="center" >
 
 
 #### 安装教程
+1.  npm install              安装依赖
+2.  npm run start            启动开发环境
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 了解更多，请关注公众号
+<img src="https://api.xingyunzuo.com/platform/api/images/tpk4VM7WbUVL8vwk.png"  width = "100%"  alt="二维码" align="center" >
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
