@@ -1,13 +1,14 @@
+星云座低代码平台，一款应用系统功能扩展器，它连接应用系统数据库和接口、提供低代码开发能力、打通系统数据、业务和用户，快速扩展新功能，并融入原有系统 。星云座采用了独特的前后端分离开发模式，遵循了可视化IDE的设计理念，可与原生代码开发混合使用。
+## 快速使用
+#### 线上版
+[https://dev.xingyunzuo.com/](https://dev.xingyunzuo.com/)
+#### 线上体验版 用户名：18888888888 密码：888888
 #### 可视化IDE低代码开发平台
 
 全栈可视化开发工具链，包括可视化前端、后端、数据库、接口对接、项目发布等五大功能。本平台可以嵌入现有的业务系统，赋能业务系统具备低代码开发能力，快速扩展新功能，提升定制需求的开发效率
 <img src="https://api.xingyunzuo.com/platform/api/images/UQlQpgredHVWUtUt.png"  width = "100%"  alt="可视化平台" align="center" >
 
-## 快速使用
-#### 线上版
-线上体验版，代码生成worker、浏览器构建、可视化操作、实时输出源代码、多种类型物料源，更多精彩内容逐步开放
-用户名：18888888888 密码：888888
-[https://dev.xingyunzuo.com/](https://dev.xingyunzuo.com/)
+
 
 #### 前端交互页面，不是简单表单
 <img src="https://api.xingyunzuo.com/platform/api/images/WLAfVe8rn6xwU3mC.png"  width = "100%"  alt="前端交互页面" align="center" >
