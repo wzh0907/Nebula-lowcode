@@ -1,4 +1,8 @@
-星云座低代码平台，一款应用系统功能扩展器，它连接应用系统数据库和接口、提供低代码开发能力、打通系统数据、业务和用户，快速扩展新功能，并融入原有系统 。星云座采用了独特的前后端分离开发模式，遵循了可视化IDE的设计理念，可与原生代码开发混合使用。
+## 简介
+#### 星云座低代码是一款应用系统功能扩展平台，它连接应用系统数据库和接口、提供低代码开发能力、打通系统数据、业务和用户，快速扩展新功能，并融入原有系统。星云座采用了独特的前后端分离开发模式，遵循了可视化IDE的设计理念，可与原生代码开发混合使用。
+
+#### 欢迎软件厂商洽谈OEM，合作共赢！
+
 ## 快速使用
 #### 线上版
 [https://dev.xingyunzuo.com/](https://dev.xingyunzuo.com/)
@@ -26,5 +30,5 @@
 2.  npm run start            启动开发环境
 
 #### 了解更多，请关注公众号
-<img src="https://api.xingyunzuo.com/platform/api/images/tpk4VM7WbUVL8vwk.png"  width = "100%"  alt="二维码" align="center" >
+<img src="https://api.xingyunzuo.com/platform/api/images/tpk4VM7WbUVL8vwk.png"  width = "50%"  alt="二维码" align="center" >
 
